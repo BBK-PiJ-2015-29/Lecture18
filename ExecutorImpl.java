@@ -6,10 +6,10 @@
 
 import java.util.concurrent.*;
 import java.util.Queue;
-import java.util.ArrayDeque;
+import java.util.LinkedList;
 
 public class ExecutorImpl implements Executor {
-	private Queue<Runnable> tasks = new ArrayDeque<Runnable>();
+	private Queue<Runnable> tasks = new LinkedList<Runnable>();
 	private Executor ex;
 	private Runnable active;
 	
@@ -34,10 +34,12 @@ public class ExecutorImpl implements Executor {
 		
 	}
 	public void scheduleNext() {
-		if((active = tasks.poll()) != null) {
+		if((active = tasks.remove()) != null) {
 			ex.execute(active);
 		}
 	}
 	
-	public getMaxPendingTime() {}
+	public int getMaxPendingTime() {
+		return tasks.size() * 1000;
+	}
 }

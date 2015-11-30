@@ -5,14 +5,24 @@
  */
 
 public class TimedTask implements Runnable {
+	private final int MAX_SLEEP = 1000;
 	private int sleepTime;
 	
 	public TimedTask(int sleepTime) {
-		this.sleepTime = sleepTime;
+		if (sleepTime < MAX_SLEEP) {
+			this.sleepTime = sleepTime;
+		} else {
+			this.sleepTime = MAX_SLEEP;
+		}
 	}
 	
 	public void run() {
-		Thread.sleep(sleepTime);
+		try{
+			Thread.sleep(sleepTime);
+		} catch (InterruptedException ex) {
+			ex.printStackTrace();
+		}
+		
 	}
 	
 	public int getSleepTime() {
